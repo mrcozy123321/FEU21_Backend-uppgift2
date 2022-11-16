@@ -45,12 +45,23 @@ namespace FEU21_Backend_2.Controllers
         // PUT: api/ProductModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductModel(Guid id, ProductModel productModel)
+        public async Task<IActionResult> PutProductModel(Guid id, Product product)
         {
+            var productModel = new ProductModel
+            {
+                Id = Guid.NewGuid(),
+                PartitionKey = "Products",
+                ArticleNr = product.ArticleNr,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description
+            };
+
             if (id != productModel.Id)
             {
                 return BadRequest();
             }
+
 
             _context.Entry(productModel).State = EntityState.Modified;
 
