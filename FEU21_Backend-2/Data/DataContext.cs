@@ -1,4 +1,4 @@
-﻿using FEU21_Backend_2.Models.Entities;
+﻿using FEU21_Backend_2.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FEU21_Backend_2.Data
@@ -7,10 +7,13 @@ namespace FEU21_Backend_2.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-
         }
 
-        public DbSet<ProductEntity> Products { get; set; }
-        public DbSet<CategoryEntity> Categoríes { get; set; }
+        public DbSet<ProductModel> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ProductModel>().ToContainer("Products").HasPartitionKey(x => x.PartitionKey);
+        }
     }
 }
